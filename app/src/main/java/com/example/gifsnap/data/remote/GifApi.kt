@@ -19,7 +19,7 @@ interface GifApi {
     companion object {
         const val BASE_URL = "https://api.giphy.com/v1/"
         const val API_KEY = "YGHnKKBGSydS6nSt6WAoUcICWwmgCfvL"
-        const val DEFAULT_QUERY = "cars"
+        const val DEFAULT_QUERY = "cats"
         const val DEFAULT_RATING = "g"
         const val DEFAULT_LIMIT = 25
     }
