@@ -8,8 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ImageNotSupported
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -26,9 +25,8 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.example.gifsnap.R
 import com.example.gifsnap.domain.models.Gif
-import com.example.gifsnap.getAverageColor
-import com.example.gifsnap.presentation.common.ErrorLoadingItem
-import com.example.gifsnap.presentation.common.ShimmerGifItem
+import com.example.gifsnap.util.getAverageColor
+import com.example.gifsnap.presentation.common.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

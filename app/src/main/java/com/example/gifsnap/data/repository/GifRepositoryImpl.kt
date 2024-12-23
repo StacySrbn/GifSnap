@@ -1,30 +1,16 @@
 package com.example.gifsnap.data.repository
 
-import android.database.sqlite.SQLiteConstraintException
-import android.database.sqlite.SQLiteDatabaseCorruptException
-import android.database.sqlite.SQLiteDatabaseLockedException
 import android.database.sqlite.SQLiteException
 import android.util.Log
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import androidx.paging.map
-import androidx.room.RoomDatabase
-import com.example.gifsnap.Resource
-import com.example.gifsnap.data.local.GifDatabase
-import com.example.gifsnap.data.local.GifRemoteMediator
+import com.example.gifsnap.util.Resource
+import com.example.gifsnap.data.local.*
 import com.example.gifsnap.data.remote.GifApi
 import com.example.gifsnap.domain.models.Gif
 import com.example.gifsnap.domain.repository.GifRepository
 import com.example.gifsnap.mappers.toGif
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import okio.IOException
-import retrofit2.HttpException
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class GifRepositoryImpl @Inject constructor(

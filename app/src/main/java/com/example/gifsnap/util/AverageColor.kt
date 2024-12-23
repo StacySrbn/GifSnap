@@ -1,4 +1,4 @@
-package com.example.gifsnap
+package com.example.gifsnap.util
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable

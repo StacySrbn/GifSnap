@@ -7,7 +7,6 @@ import com.example.gifsnap.mappers.toGifEntity
 import okio.IOException
 import retrofit2.HttpException
 import androidx.room.withTransaction
-import com.example.gifsnap.data.remote.GifApi.Companion.DEFAULT_LIMIT
 
 @OptIn(ExperimentalPagingApi::class)
 class GifRemoteMediator(
