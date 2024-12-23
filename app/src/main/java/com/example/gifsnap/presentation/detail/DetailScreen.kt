@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.*
 import androidx.compose.runtime.*
@@ -46,7 +47,7 @@ fun DetailScreen(
         onRefresh = onRefresh,
         state = state
     ) {
-        Column (
+        LazyColumn (
             modifier = Modifier
                 .background(
                     Brush.verticalGradient(
@@ -58,19 +59,25 @@ fun DetailScreen(
                 )
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
 
-            TopSection(
-                detailState = detailState,
-                navController = navController
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+            item {
+                Column {
+                    TopSection(
+                        detailState = detailState,
+                        navController = navController
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
 
-            GifCard(
-                gif = detailState.gif,
-                onDominantColorChanged = { color -> dominantColor = color }
-            )
+            item {
+                GifCard(
+                    gif = detailState.gif,
+                    onDominantColorChanged = { color -> dominantColor = color }
+                )
+            }
         }
     }
 }

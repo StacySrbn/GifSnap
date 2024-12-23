@@ -97,8 +97,8 @@ fun GifCard(
 
                 SubcomposeAsyncImage(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .height(400.dp)
                         .padding(8.dp)
                         .clip(RoundedCornerShape(24.dp)),
                     model = gif.url,
