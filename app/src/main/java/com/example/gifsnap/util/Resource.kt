@@ -1,4 +1,4 @@
-package com.example.gifsnap
+package com.example.gifsnap.util
 
 sealed class Resource<T>(
     val data: T? = null,

@@ -1,7 +1,6 @@
 package com.example.gifsnap.data.local
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "gifs")
 data class GifEntity(

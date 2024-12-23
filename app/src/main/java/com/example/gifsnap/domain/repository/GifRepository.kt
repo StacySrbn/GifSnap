@@ -1,7 +1,7 @@
 package com.example.gifsnap.domain.repository
 
 import androidx.paging.PagingData
-import com.example.gifsnap.Resource
+import com.example.gifsnap.util.Resource
 import com.example.gifsnap.domain.models.Gif
 import kotlinx.coroutines.flow.Flow
 

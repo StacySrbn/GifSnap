@@ -13,8 +13,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.gifsnap.presentation.detail.components.GifCard
-import com.example.gifsnap.presentation.detail.components.TopSection
+import com.example.gifsnap.presentation.detail.components.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
