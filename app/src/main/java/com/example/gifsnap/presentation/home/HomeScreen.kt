@@ -2,7 +2,6 @@
 
 package com.example.gifsnap.presentation.home
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,6 +23,7 @@ import com.example.gifsnap.R
 import com.example.gifsnap.domain.models.Gif
 import com.example.gifsnap.presentation.common.ErrorLoadingItem
 import com.example.gifsnap.presentation.common.GifCardViewHolder
+import com.example.gifsnap.presentation.common.ShimmerGifItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +38,6 @@ fun HomeScreen(
 
     LaunchedEffect (homeState.errorMessage){
         if (!homeState.errorMessage.isNullOrEmpty()) {
-            Log.e("MY LOG HomeScreen", "Error message: ${homeState.errorMessage}")
             Toast.makeText(context, "Error: ${homeState.errorMessage}", Toast.LENGTH_SHORT).show()
         }
     }
@@ -68,15 +67,15 @@ fun HomeScreen(
                 items(gifsList.itemCount) { index ->
                     val gif = gifsList[index]
                     gif?.let {
-                        Log.d("MY LOG HomeScreen", "GIF ${gif.id}")
-                        Log.d("MY LOG HomeScreen", "GIF ${gif.title}")
-                        Log.d("MY LOG HomeScreen", "GIF ${gif.url}")
-                        Log.d("MY LOG HomeScreen", "GIF isLoading: $homeState")
+                        ShimmerGifItem(
+                            isLoading = homeState.isLoading,
+                            contentAfterLoading = {
+                                GifCardViewHolder(
+                                    gif,
+                                    navController
+                                )
+                        })
 
-                        GifCardViewHolder(
-                            gif,
-                            navController
-                        )
 
                     } ?: run {
                         ErrorLoadingItem(

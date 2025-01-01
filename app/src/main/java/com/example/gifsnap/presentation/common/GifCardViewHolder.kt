@@ -1,7 +1,6 @@
 package com.example.gifsnap.presentation.common
 
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,23 +16,15 @@ import coil.ImageLoader
 import coil.compose.*
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
-import coil.request.ImageRequest
-import coil.size.Size
 import com.example.gifsnap.domain.models.Gif
 import com.example.gifsnap.navigation.Screen
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-
-@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun GifCardViewHolder(
     gif: Gif,
     navHostController: NavHostController
 ) {
-    Log.d("My Log","Home Gif $gif")
     val id = gif.id
-    Log.e("My Log","Home Gif id passed $id")
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,14 +34,9 @@ fun GifCardViewHolder(
             .clip(RoundedCornerShape(12.dp)),
         contentAlignment = Alignment.Center
     ) {
-        val painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(gif.url)
-                .size(Size.ORIGINAL)
-                .build()
-        )
+
         val context = LocalContext.current
-        val dispatcher = Dispatchers.IO.limitedParallelism(5)
+        val dispatcher = Dispatchers.IO
         val imageLoader = ImageLoader.Builder(context)
             .dispatcher(dispatcher)
             .components {
@@ -63,31 +49,28 @@ fun GifCardViewHolder(
             .respectCacheHeaders(false)
             .build()
 
-        if (painter.state is AsyncImagePainter.State.Loading) {
-            ShimmerGifItem(
-                isLoading = painter.state is AsyncImagePainter.State.Loading,
-                contentAfterLoading = {}
-            )
-        }
-        if (painter.state is AsyncImagePainter.State.Error) {
-            ErrorLoadingItem(
-                modifier = Modifier
-                    .size(150.dp)
-                    .background(Color.LightGray)
-                    .clip(RoundedCornerShape(12.dp))
-            )
-        }
-
-        if (painter.state is AsyncImagePainter.State.Success) {
-
             SubcomposeAsyncImage(
                 modifier = Modifier
                     .fillMaxSize(),
                 model = gif.url,
-                contentDescription = gif.title,
                 imageLoader = imageLoader,
+                loading = {
+                    ShimmerGifItem(
+                        isLoading = true,
+                        contentAfterLoading = {}
+                    )
+                },
+                error = {
+                    ErrorLoadingItem(
+                        modifier = Modifier
+                            .size(150.dp)
+                            .background(Color.LightGray)
+                            .clip(RoundedCornerShape(12.dp))
+                    )
+                },
+                contentDescription = gif.title,
                 contentScale = ContentScale.Crop
             )
-        }
+
     }
 }

@@ -1,10 +1,10 @@
 package com.example.gifsnap.presentation.detail
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.*
 import androidx.compose.runtime.*
@@ -28,14 +28,12 @@ fun DetailScreen(
 
     LaunchedEffect (detailState.errorMessage){
         if (!detailState.errorMessage.isNullOrEmpty()) {
-            Log.e("My Log", "Error: ${detailState.errorMessage}")
-            Log.d("My Log", "Selected gif: $detailState")
-
             Toast.makeText(context, "Error: ${detailState.errorMessage}", Toast.LENGTH_SHORT).show()
         }
     }
 
     val state = rememberPullToRefreshState()
+    val scrollState = rememberScrollState()
 
     val defaultColor = MaterialTheme.colorScheme.secondaryContainer
     var dominantColor by remember {
@@ -47,36 +45,36 @@ fun DetailScreen(
         onRefresh = onRefresh,
         state = state
     ) {
-        LazyColumn (
-            modifier = Modifier
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            defaultColor,
-                            dominantColor
+        Box {
+            Column(
+                modifier = Modifier
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                defaultColor,
+                                dominantColor
+                            )
                         )
                     )
-                )
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
+                    .fillMaxSize()
+                    .verticalScroll(scrollState),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
 
-            item {
-                Column {
-                    TopSection(
-                        detailState = detailState,
-                        navController = navController
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-            }
+               TopSection(
+                    detailState = detailState,
+                    navController = navController
+               )
+                
+                Spacer(modifier = Modifier.height(32.dp))
 
-            item {
+
                 GifCard(
                     gif = detailState.gif,
                     onDominantColorChanged = { color -> dominantColor = color }
-                )
+                )      
+
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
 import androidx.navigation.NavHostController
 import com.example.gifsnap.R
@@ -22,11 +23,14 @@ fun TopSection(
     Row (
         modifier = Modifier
             .fillMaxWidth()
+            .height(100.dp)
+            .padding(top = 70.dp),
+        verticalAlignment = Alignment.CenterVertically
     ){
         Row (
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 70.dp, start = 16.dp),
+                .wrapContentSize()
+                .padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -46,17 +50,20 @@ fun TopSection(
         }
         Row (
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 70.dp),
+                .wrapContentSize()
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = detailState.gif?.title ?: "Unknown gif",
-                color = colorResource(id = R.color.beige),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterVertically),
+                text = detailState.gif.title,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

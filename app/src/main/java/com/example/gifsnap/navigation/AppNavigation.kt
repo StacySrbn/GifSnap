@@ -9,7 +9,6 @@ import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.gifsnap.presentation.detail.*
 import com.example.gifsnap.presentation.home.*
-import kotlinx.coroutines.delay
 
 @Composable
 fun AppNavigation(
@@ -29,13 +28,10 @@ fun AppNavigation(
     ) {
         composable(Screen.HomeScreen.route) {
 
-            var isRefreshing by remember {
-                mutableStateOf(false)
-            }
+            var isRefreshing by remember { mutableStateOf(false) }
             LaunchedEffect(isRefreshing) {
                 if (isRefreshing) {
                     homeViewModel.refreshData()
-                    delay(1000)
                     isRefreshing = false
                 }
             }
@@ -55,22 +51,17 @@ fun AppNavigation(
             arguments = listOf(
                 navArgument(name = "gifId") { type = NavType.StringType }
             )
-
         ) {backStackEntry ->
             val gifId = backStackEntry.arguments?.getString("gifId") ?: ""
-
             detailViewModel.loadGifById(gifId)
-            var isRefreshing by remember {
-                mutableStateOf(false)
-            }
+
+            var isRefreshing by remember { mutableStateOf(false) }
             LaunchedEffect(isRefreshing) {
                 if (isRefreshing) {
                     detailViewModel.refreshData(gifId)
-                    delay(1000)
                     isRefreshing = false
                 }
             }
-
             DetailScreen(
                 detailState = detailState,
                 navController = navController,

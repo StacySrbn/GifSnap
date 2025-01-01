@@ -1,7 +1,6 @@
 package com.example.gifsnap.data.repository
 
 import android.database.sqlite.SQLiteException
-import android.util.Log
 import androidx.paging.*
 import androidx.paging.map
 import com.example.gifsnap.util.Resource
@@ -29,7 +28,6 @@ class GifRepositoryImpl @Inject constructor(
             pagingSourceFactory = { db.gifDao.getGifList() }
         ).flow.map { pagingData ->
             pagingData.map { gifEntity ->
-                Log.d("MY LOG GifRepositoryImpl", "Mapping GifEntity to Gif: ${gifEntity.id}")
                 gifEntity.toGif()
             }
         }
@@ -40,8 +38,6 @@ class GifRepositoryImpl @Inject constructor(
             emit(Resource.Loading(true))
             try {
                 val gifEntity = db.gifDao.getGifById(id)
-                Log.d("Error Check", "Repository entity $gifEntity")
-
                 if (gifEntity != null) {
                     emit(Resource.Success(gifEntity.toGif()))
                 } else {

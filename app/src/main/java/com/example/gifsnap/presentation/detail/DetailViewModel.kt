@@ -1,6 +1,5 @@
 package com.example.gifsnap.presentation.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gifsnap.util.Resource
@@ -27,8 +26,6 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun getSingleGif(gifId: String){
-        Log.d("Error Check", "View Model id $gifId")
-
         viewModelScope.launch {
             getGif(gifId).collectLatest { result->
                 when(result){
@@ -39,7 +36,6 @@ class DetailViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         result.data?.let { gif->
-                            Log.d("Error Check", "View Model $gif")
                             _detailState.update {
                                 it.copy(
                                     gif = gif,

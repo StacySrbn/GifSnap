@@ -53,7 +53,15 @@ fun GifCard(
                 tint = colorResource(id = R.color.beige)
             )
         }
-    } else{
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(400.dp)
+                .padding(8.dp)
+                .clip(RoundedCornerShape(24.dp)),
+            contentAlignment = Alignment.Center
+        ) {
 
             val painter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -62,7 +70,7 @@ fun GifCard(
                     .build()
             ).state
             val context = LocalContext.current
-            val dispatcher = Dispatchers.IO.limitedParallelism(5)
+            val dispatcher = Dispatchers.IO
             val imageLoader = ImageLoader.Builder(context)
                 .dispatcher(dispatcher)
                 .components {
@@ -74,40 +82,32 @@ fun GifCard(
                 }
                 .respectCacheHeaders(false)
                 .build()
-
-            if (painter is AsyncImagePainter.State.Loading) {
-                ShimmerGifItem(
-                    isLoading = true,
-                    contentAfterLoading = {}
-                )
-            }
-            if (painter is AsyncImagePainter.State.Error) {
-                ErrorLoadingItem(
-                    modifier = Modifier
-                        .size(400.dp)
-                        .background(Color.LightGray)
-                        .clip(RoundedCornerShape(24.dp))
-                )
-            }
-
             if (painter is AsyncImagePainter.State.Success) {
-
                 val bitmap = painter.result.drawable.toBitmap().asImageBitmap()
                 onDominantColorChanged(getAverageColor(bitmap))
-
-                SubcomposeAsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(400.dp)
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(24.dp)),
-                    model = gif.url,
-                    contentDescription = gif.title,
-                    imageLoader = imageLoader,
-                    contentScale = ContentScale.Crop
-                )
             }
-
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .fillMaxSize(),
+                model = gif.url,
+                contentDescription = gif.title,
+                imageLoader = imageLoader,
+                contentScale = ContentScale.Crop,
+                loading = {
+                    ShimmerGifItem(
+                        isLoading = true,
+                        contentAfterLoading = {}
+                    )
+                },
+                error = {
+                    ErrorLoadingItem(
+                        modifier = Modifier
+                            .size(150.dp)
+                            .background(Color.LightGray)
+                            .clip(RoundedCornerShape(12.dp))
+                    )
+                }
+            )
+        }
     }
-
 }
